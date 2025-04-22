@@ -1,3 +1,18 @@
+
+/**
+ * Mock movie data for development purposes.
+ *
+ * This file contains an array of movie objects, each representing a movie with the following properties:
+ * - `id`: A unique identifier for the movie.
+ * - `title`: The title of the movie.
+ * - `posterUrl`: A URL to the movie's poster image.
+ * - `year`: The release year of the movie.
+ * - `description`: A brief description or synopsis of the movie.
+ * - `genres`: An array of genres associated with the movie.
+ * - `rating`: The movie's rating (on a scale of 1 to 5 or 1 to 10, depending on the context).
+ *
+ * This data is used to simulate API responses and populate UI components during development.
+ */
 import { Movie } from "../type/Movie";
 
 

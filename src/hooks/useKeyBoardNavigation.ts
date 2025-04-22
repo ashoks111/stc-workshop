@@ -2,6 +2,7 @@ import { useEffect, useCallback, useMemo } from 'react';
 import { useFocusStore } from '../store/useFocusableStore';
 import { useMovieStore } from '../store/useMovieStore';
 import { NavMenu, SideBarMenu } from '../data/Menu';
+import { FocusKeyElemType, KeyDirection, KeyEventType } from '../type/FocusType';
 export const useKeyboardNavigation = () => {
   
   const focusedKey = useFocusStore((state) => state.focusedKey);
@@ -13,128 +14,130 @@ export const useKeyboardNavigation = () => {
   
   const movies = useMovieStore((state) => state.movies);
   
-  const focusableKeys = useMemo(
-    () => [ ...SideBarMenu.map((menu) => menu.id),"play-button", ...NavMenu.map((menu) => menu.id),  ...movies.map((movie) => movie.id),],
-    [movies]
+  // Memoize focusable keys to avoid recomputation
+  const focusableKeys = useMemo(() => {
+    const staticKeys = [
+      ...SideBarMenu.map((menu) => menu.id),
+      FocusKeyElemType.PLAY_BUTTON,
+      ...NavMenu.map((menu) => menu.id),
+    ];
+    return [...staticKeys, ...movies.map((movie) => movie.id)];
+  }, [movies]);
+
+   // Helper function to get the next or previous key
+   const getNextKey = useCallback(
+    (currentKey: string, direction: KeyDirection) => {
+      const currentIndex = focusableKeys.indexOf(currentKey);
+      if (currentIndex === -1) return null;
+  
+      const nextIndex =
+        direction === KeyDirection.NEXT ? currentIndex + 1 : currentIndex - 1;
+      return focusableKeys[nextIndex] || null;
+    },
+    [focusableKeys] // Dependency array ensures this function is memoized based on focusableKeys
   );
  
 
+  // Debounced key handler
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
+      event.preventDefault();
+
       switch (event.key) {
-        case 'ArrowRight': 
-        event.preventDefault();
-           // if it is in rail
-          if (focusedKey?.startsWith("movie-card-")) {
-            const currentIndex = focusableKeys.indexOf(focusedKey);
-            const nextIndex = (currentIndex + 1);
-            const nextKey = focusableKeys[nextIndex];
-            if(nextKey?.startsWith("movie-card-")){
+        case KeyEventType.ARROW_RIGHT:
+          if (focusedKey?.startsWith(FocusKeyElemType.MOVIE_CARD)) {
+            const nextKey = getNextKey(focusedKey, KeyDirection.NEXT);
+            if (nextKey?.startsWith(FocusKeyElemType.MOVIE_CARD)) {
               setFocusedKey(nextKey);
-              setPrevMovieCard(nextKey)
+              setPrevMovieCard(nextKey);
             }
-          }
-          // if in top - nav
-          else if(focusedKey?.startsWith("icon-")) {
-            const currentIndex = focusableKeys.indexOf(focusedKey);
-            const nextIndex = (currentIndex + 1);
-            const nextKey = focusableKeys[nextIndex];
-            if(nextKey?.startsWith("icon-")){
+          } else if (focusedKey?.startsWith(FocusKeyElemType.ICON)) {
+            const nextKey = getNextKey(focusedKey, KeyDirection.NEXT);
+            if (nextKey?.startsWith(FocusKeyElemType.ICON)) {
               setFocusedKey(nextKey);
             }
-          }
-          // if in left nav
-          else if(focusedKey?.startsWith("menu-")) {
+          } else if (focusedKey?.startsWith(FocusKeyElemType.MENU)) {
             setPrevLeftMenu(focusedKey);
             setFocusedKey(movies[0]?.id);
           }
-
           break;
-        case 'ArrowLeft':
-        event.preventDefault();
-       
-        if (focusedKey?.startsWith("movie-card-")) {
-          if(focusedKey === movies[0]?.id){
+
+        case KeyEventType.ARROW_LEFT:
+          if (focusedKey?.startsWith(FocusKeyElemType.MOVIE_CARD)) {
+            if (focusedKey === movies[0]?.id) {
+              setFocusedKey(prevLeftMenu ?? NavMenu[0]?.id);
+              setPrevMovieCard(focusedKey);
+            } else {
+              const prevKey = getNextKey(focusedKey, KeyDirection.PREV);
+              if (prevKey?.startsWith(FocusKeyElemType.MOVIE_CARD)) {
+                setFocusedKey(prevKey);
+                setPrevMovieCard(prevKey);
+              }
+            }
+          } else if (focusedKey === FocusKeyElemType.PLAY_BUTTON) {
             setFocusedKey(prevLeftMenu ?? NavMenu[0]?.id);
-            setPrevMovieCard(focusedKey);
-          } else {
-            const currentIndex = focusableKeys.indexOf(focusedKey);
-            const nextIndex = (currentIndex - 1);
-            const nextKey = focusableKeys[nextIndex];
-            if(nextKey?.startsWith("movie-card-")){
-              setFocusedKey(nextKey);
-              setPrevMovieCard(nextKey)
+          } else if (focusedKey?.startsWith(FocusKeyElemType.ICON)) {
+            const prevKey = getNextKey(focusedKey, KeyDirection.PREV);
+            if (prevKey?.startsWith(FocusKeyElemType.ICON)) {
+              setFocusedKey(prevKey);
             }
           }
-         
-        } else if(focusedKey ==="play-button"){
-          setFocusedKey(prevLeftMenu ?? NavMenu[0]?.id);
-        } else if (focusedKey?.startsWith("icon-")) {
-          if(focusedKey === NavMenu[0]?.id){
-            setFocusedKey(prevLeftMenu ?? NavMenu[0]?.id);
-          } else {
-            const currentIndex = focusableKeys.indexOf(focusedKey);
-            const nextIndex = (currentIndex - 1);
-            const nextKey = focusableKeys[nextIndex];
-            if(nextKey?.startsWith("icon-")){
-              setFocusedKey(nextKey);
+          break;
+
+        case KeyEventType.ARROW_UP:
+          if (focusedKey?.startsWith(FocusKeyElemType.MOVIE_CARD)) {
+            setFocusedKey(FocusKeyElemType.PLAY_BUTTON);
+            setPrevMovieCard(focusedKey);
+          } else if (focusedKey === FocusKeyElemType.PLAY_BUTTON) {
+            setFocusedKey(NavMenu[0]?.id);
+          } else if (
+            focusedKey?.startsWith(FocusKeyElemType.MENU) &&
+            focusedKey !== SideBarMenu[0]?.id
+          ) {
+            const prevKey = getNextKey(focusedKey, KeyDirection.PREV);
+            if (prevKey?.startsWith(FocusKeyElemType.MENU)) {
+              setFocusedKey(prevKey);
             }
           }
-        }
+          break;
 
-          break;
-        case 'ArrowUp':
-        event.preventDefault();
-        if (focusedKey?.startsWith("movie-card-")) {
-            setFocusedKey('play-button');
-            setPrevMovieCard(focusedKey);
-        } else if (focusedKey === 'play-button') {
-          setFocusedKey(NavMenu[0]?.id);
-        } else if (focusedKey?.startsWith("menu-") && focusedKey !== SideBarMenu[0]?.id) {
-          const currentIndex = focusableKeys.indexOf(focusedKey);
-          const nextIndex = (currentIndex - 1);
-          const nextKey = focusableKeys[nextIndex];
-          if(nextKey?.startsWith("menu-")){
-            setFocusedKey(nextKey);
-          }
-        }
-          // Handle up arrow key
-          break;
-        case 'ArrowDown':
-        event.preventDefault();
-            if (focusedKey?.startsWith("icon-")) {
-              setFocusedKey('play-button');
-          } else if (focusedKey === 'play-button') {
+        case KeyEventType.ARROW_DOWN:
+          if (focusedKey?.startsWith(FocusKeyElemType.ICON)) {
+            setFocusedKey(FocusKeyElemType.PLAY_BUTTON);
+          } else if (focusedKey === FocusKeyElemType.PLAY_BUTTON) {
             setFocusedKey(prevMovieCard || movies[0]?.id);
-          } else if (focusedKey?.startsWith("menu-") && focusedKey !== SideBarMenu[SideBarMenu.length - 1]?.id) {
-            const currentIndex = focusableKeys.indexOf(focusedKey);
-            const nextIndex = (currentIndex + 1);
-            const nextKey = focusableKeys[nextIndex];
-            if(nextKey?.startsWith("menu-")){
+          } else if (
+            focusedKey?.startsWith(FocusKeyElemType.MENU) &&
+            focusedKey !== SideBarMenu[SideBarMenu.length - 1]?.id
+          ) {
+            const nextKey = getNextKey(focusedKey, KeyDirection.NEXT);
+            if (nextKey?.startsWith(FocusKeyElemType.MENU)) {
               setFocusedKey(nextKey);
             }
           }
-          // Handle down arrow key
           break;
-        case 'Enter':
-        event.preventDefault();
 
+        case KeyEventType.ENTER:
           // Handle enter key
           break;
+
         default:
           break;
       }
     },
-    [focusableKeys, focusedKey, setFocusedKey]
+    [focusedKey, getNextKey, setFocusedKey, setPrevMovieCard, setPrevLeftMenu, movies, prevLeftMenu, prevMovieCard]
   );
-
+  
   // Set up keyboard event listener
   useEffect(() => {
-    window.addEventListener('keydown', handleKeyDown);
-    
-    // Clean up event listener on unmount
+    const debouncedHandler = (event: KeyboardEvent) => {
+      handleKeyDown(event);
+    };
+
+    window.addEventListener('keydown', debouncedHandler);
+
     return () => {
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', debouncedHandler);
     };
   }, [handleKeyDown]);
 };

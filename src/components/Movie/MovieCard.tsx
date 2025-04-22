@@ -1,36 +1,18 @@
-import React, { useState } from "react";
-import { useMovieStore } from "../store/useMovieStore";
-import { Movie } from "../type/Movie";
+import { useState } from "react";
+import { useMovieStore } from "../../store/useMovieStore";
+import { MovieCardProps } from "../../type/Movie";
+import LazyImage from "../common/LazyImage";
 
-interface MovieCardProps {
-  movie: Movie;
-  onFocus?: (movie: Movie) => void;
-  index: number;
-  elemRef?: React.Ref<HTMLDivElement>;
-}
-
-const MovieCard: React.FC<MovieCardProps> = ({
-  movie,
-  elemRef,
-  onFocus,
-  index,
-}) => {
-  const [isLoaded, setIsLoaded] = useState(true);
+const MovieCard = ({ movie, elemRef, onFocus, index }: MovieCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const activeMovie = useMovieStore((state) => state.activeMovie);
   const isActive = activeMovie?.id === movie?.id;
-
-  const handleImageLoad = () => {
-    setIsLoaded(true);
-  };
 
   const handleFocus = () => {
     if (onFocus) {
       onFocus(movie);
     }
   };
-
-  // Staggered animation effect based on index
   const animationDelay = `${index * 50}ms`;
 
   return (
@@ -39,7 +21,7 @@ const MovieCard: React.FC<MovieCardProps> = ({
       id={movie?.id}
       className={`flex-shrink-0 w-48 h-72 mx-3 transition-all duration-300 ease-out transform 
                 ${isHovered || isActive ? "scale-110 z-10" : "scale-100 z-0"}
-                ${isLoaded ? "opacity-100" : "opacity-0"}`}
+              `}
       style={{ animationDelay }}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -48,21 +30,16 @@ const MovieCard: React.FC<MovieCardProps> = ({
     >
       <>
         <div className="relative w-full h-full overflow-hidden rounded-xl group">
-          {/* Skeleton loader that fades out when image loads */}
           <div
-            className={`absolute inset-0 bg-gradient-to-r from-gray-800 to-gray-700 animate-pulse ${
-              isLoaded ? "opacity-0" : "opacity-100"
-            } transition-opacity`}
+            className={`absolute inset-0 bg-gradient-to-r from-gray-800 to-gray-700 animate-pulse  transition-opacity`}
           />
 
-          <img
+          <LazyImage
             src={movie?.posterUrl}
             alt={movie?.title}
             className={`w-full h-full object-cover transition-all duration-700 ease-out
                         ${isHovered ? "brightness-110" : "brightness-100"}
                         focus:outline-none`}
-            onLoad={handleImageLoad}
-            loading="lazy"
           />
 
           {/* Gradient overlay at bottom for text */}
@@ -78,7 +55,6 @@ const MovieCard: React.FC<MovieCardProps> = ({
             </p>
           </div>
 
-          {/* Focus outline for accessibility */}
           <div className="absolute inset-0 rounded-xl ring-2 ring-blue-500 ring-opacity-0 focus-within:ring-opacity-100 pointer-events-none" />
         </div>
       </>

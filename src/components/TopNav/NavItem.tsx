@@ -1,31 +1,11 @@
-import React, { useEffect, useRef } from "react";
-import { NavMenu } from "../data/Menu";
-import { MenuType } from "../type/MenuType";
-import { useFocusStore } from "../store/useFocusableStore";
-
-const TopNav: React.FC = () => {
-  return (
-    <nav className="py-5 px-12 flex-1">
-      <ul className="flex justify-center space-x-16">
-        {NavMenu.map((item) => (
-          <NavItem item={item} key={item.id} />
-        ))}
-      </ul>
-    </nav>
-  );
-};
-
-export default TopNav;
+import { useFocusEffect } from "../../hooks/useFocusEffect";
+import { useFocusStore } from "../../store/useFocusableStore";
+import { MenuType } from "../../type/MenuType";
 
 const NavItem = ({ item }: { item: MenuType }) => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === item?.id;
-  const ref = useRef<HTMLButtonElement>(null);
-  useEffect(() => {
-    if (isFocused && ref.current) {
-      ref.current.focus();
-    }
-  }, [isFocused]);
+  const ref = useFocusEffect<HTMLButtonElement>(isFocused);
   return (
     <li
       key={item.id}
@@ -43,3 +23,4 @@ const NavItem = ({ item }: { item: MenuType }) => {
     </li>
   );
 };
+export default NavItem;

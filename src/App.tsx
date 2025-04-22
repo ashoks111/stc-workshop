@@ -1,8 +1,8 @@
-import MovieDetails from "./components/MovieDetails";
-import Sidebar from "./components/Sidebar";
-import TopNav from "./components/TopNav";
+import MovieDetails from "./components/Movie/MovieDetails";
+import Sidebar from "./components/Sidebar/Sidebar";
+import TopNav from "./components/TopNav/TopNav";
 import { useMovieStore } from "./store/useMovieStore";
-import MovieRail from "./components/MovieRail";
+import MovieRail from "./components/Movie/MovieRail";
 import { Movie } from "./type/Movie";
 import { useKeyboardNavigation } from "./hooks/useKeyBoardNavigation";
 
@@ -20,7 +20,7 @@ function App() {
       <Sidebar />
       <main className="flex-1 relative hide-scrollbar overflow-hidden">
         <div
-          className="absolute inset-0  bg-cover bg-center opacity-20"
+          className="absolute inset-0 w-full bg-cover bg-center opacity-20"
           style={{
             backgroundImage: `url(${activeMovie?.posterUrl})`,
           }}

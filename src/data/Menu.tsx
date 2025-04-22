@@ -11,6 +11,14 @@ import {
   Settings,
 } from "lucide-react";
 
+/**
+ * Left Sidebar menu items.
+ *
+ * Each item includes:
+ * - `id`: A unique identifier for the menu item.
+ * - `name`: The display name of the menu item.
+ * - `icon`: An icon component representing the menu item.
+ */
 export const SideBarMenu: MenuType[] = [
   {
     id: "menu-favourites",
@@ -30,6 +38,14 @@ export const SideBarMenu: MenuType[] = [
   { id: "menu-account", name: "Account", icon: <User className="w-6 h-6" /> },
 ];
 
+/**
+ * Top Navigation menu items.
+ *
+ * Each item includes:
+ * - `id`: A unique identifier for the navigation item.
+ * - `name`: The display name of the navigation item.
+ * - `icon`: An icon component representing the navigation item.
+ */
 export const NavMenu: MenuType[] = [
   { icon: <Star className="w-6 h-6" />, name: "New", id: "icon-new" },
   { icon: <Flame className="w-6 h-6" />, name: "Popular", id: "icon-popular" },

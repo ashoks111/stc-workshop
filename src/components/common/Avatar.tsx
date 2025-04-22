@@ -1,4 +1,4 @@
-import LazyImage from "./LazyImage";
+import LazyImage from "../common/LazyImage";
 
 type AvatarProps = {
   src: string;

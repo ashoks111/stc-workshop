@@ -7,7 +7,7 @@ type UseIntersectionObserverProps = {
     ref?: React.RefObject<Element>;
   }
   
-  export function useIntersectionObserver<T extends Element>({
+  export function useIntersectionObserver({
     ref,
     rootMargin = '0px',
     threshold = 1,
@@ -32,7 +32,7 @@ type UseIntersectionObserverProps = {
           observer.unobserve(ref.current);
         }
       };
-    }, [rootMargin, threshold, skip]);
+    }, [rootMargin, threshold, skip, ref]);
   
     return { intersectionRef: ref, isIntersecting };
   }
