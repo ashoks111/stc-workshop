@@ -92,7 +92,6 @@ export const useKeyboardNavigation = () => {
             setFocusedKey(prevLeftMenu ?? NavMenu[0]?.id);
             // when focus on top nav icon
           } else if (focusedKey?.startsWith(FocusKeyElemType.ICON)) {
-            console.log("focusedKey", focusedKey);
             if(focusedKey === NavMenu[0]?.id) {
               setFocusedKey(prevLeftMenu ?? SideBarMenu[0]?.id);
             } else {

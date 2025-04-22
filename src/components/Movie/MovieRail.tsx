@@ -28,7 +28,7 @@ const MovieRail: React.FC<MovieRailProps> = ({
     getMovies(pageNoRef.current);
   }, []);
 
-   /**
+  /**
    * Fetches movies for the given page number and updates the movie store.
    *
    * @param {number} pageNo - The page number to fetch.
@@ -39,7 +39,7 @@ const MovieRail: React.FC<MovieRailProps> = ({
         if (!hasMore.current) return;
         const response = await fetchMovies(pageNo);
         pageNoRef.current = pageNo + 1;
-         // Update the movie list in the store
+        // Update the movie list in the store
         setMovies([...movieList, ...response.data]);
         // Set the first movie as active if it's the first page
         if (pageNo === 1) {
@@ -51,7 +51,7 @@ const MovieRail: React.FC<MovieRailProps> = ({
           return;
         }
       } catch (error) {
-        console.error("Error fetching movies:", error);
+        console.warn("Error fetching movies:", error);
       }
     },
     [movieList, setMovies, setActiveMovie]
@@ -127,7 +127,6 @@ const MovieRail: React.FC<MovieRailProps> = ({
 };
 
 export default MovieRail;
-
 
 /**
  * MovieCardRenderer component.
