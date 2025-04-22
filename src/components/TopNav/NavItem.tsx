@@ -1,3 +1,4 @@
+import { useCallback } from "react";
 import { useFocusEffect } from "../../hooks/useFocusEffect";
 import { useFocusStore } from "../../store/useFocusableStore";
 import { MenuType } from "../../type/MenuType";
@@ -13,6 +14,11 @@ const NavItem = ({ item }: { item: MenuType }) => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === item?.id;
   const ref = useFocusEffect<HTMLButtonElement>(isFocused);
+  const { setFocusedKey } = useFocusStore((state) => state.actions);
+
+  const handleNavItemClick = useCallback(() => {
+    setFocusedKey(item.id);
+  }, [item.id, setFocusedKey]);
   return (
     <li
       key={item.id}
@@ -22,6 +28,7 @@ const NavItem = ({ item }: { item: MenuType }) => {
         tabIndex={0}
         id={item.id}
         ref={ref}
+        onClick={handleNavItemClick}
         className="flex flex-col items-center space-y-2 text-white/70 hover:text-white focus:text-white focus:shadow-xl focus:shadow-white-500/50 transition-colors focus:outline-none"
       >
         <div>{item.icon}</div>

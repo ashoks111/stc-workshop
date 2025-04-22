@@ -2,9 +2,15 @@ import Typography from "../common/Typography";
 import Tag from "../common/Tag";
 import { useMovieStore } from "../../store/useMovieStore";
 import PlayButton from "../common/PlayButton";
+import { useFocusStore } from "../../store/useFocusableStore";
+import { useCallback } from "react";
 
 const MovieDetails = () => {
   const activeMovie = useMovieStore((state) => state.activeMovie);
+  const { setFocusedKey } = useFocusStore((state) => state.actions);
+  const handlePlayClick = useCallback(() => {
+    setFocusedKey("play-button");
+  }, [setFocusedKey]);
 
   return (
     <div className="flex flex-1 justify-end px-6 py-3 pt-0  ">
@@ -43,7 +49,7 @@ const MovieDetails = () => {
               <Tag key={genre} tagName={genre} />
             ))}
           </div>
-          <PlayButton />
+          <PlayButton onClick={handlePlayClick} />
         </div>
       )}
     </div>

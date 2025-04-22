@@ -11,7 +11,7 @@ import { FocusKeyElemType } from "../../type/FocusType";
  *
  * @returns {JSX.Element} - The rendered play button component.
  */
-const PlayButton = () => {
+const PlayButton = ({ onClick }: { onClick: () => void }) => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === FocusKeyElemType.PLAY_BUTTON;
   const ref = useFocusEffect<HTMLButtonElement>(isFocused);
@@ -22,6 +22,7 @@ const PlayButton = () => {
       id="play-button"
       ref={ref}
       aria-label="Play Button"
+      onClick={onClick}
       className={`w-12 h-12 mb-4 mt-2 rounded-full bg-white hover:bg-yellow-100/90 focus:bg-yellow-100/90 focus:shadow-xl focus:shadow-yellow-500/50  focus:outline-none transition-colors flex items-center justify-center group`}
     >
       <Play

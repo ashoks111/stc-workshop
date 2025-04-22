@@ -5,16 +5,27 @@ import { useMovieStore } from "./store/useMovieStore";
 import MovieRail from "./components/Movie/MovieRail";
 import { Movie } from "./type/Movie";
 import { useKeyboardNavigation } from "./hooks/useKeyBoardNavigation";
+import { useFocusStore } from "./store/useFocusableStore";
+import { useCallback } from "react";
 
 function App() {
   const activeMovie = useMovieStore((state) => state.activeMovie);
   const setActiveMovie = useMovieStore((state) => state.actions.setActiveMovie);
+  const { setFocusedKey, setPrevMovieCard } = useFocusStore(
+    (state) => state.actions
+  );
   const movies = useMovieStore((state) => state.movies);
   useKeyboardNavigation();
 
-  const handleMovieSelect = (movie: Movie) => {
-    setActiveMovie(movie);
-  };
+  // Memoize the handleMovieSelect function
+  const handleMovieSelect = useCallback(
+    (movie: Movie) => {
+      setActiveMovie(movie);
+      setFocusedKey(movie.id);
+      setPrevMovieCard(movie.id);
+    },
+    [setActiveMovie] // Dependencies for the memoized function
+  );
   return (
     <main className="flex min-h-screen w-full bg-primary ">
       <Sidebar />
