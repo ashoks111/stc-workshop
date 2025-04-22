@@ -3,6 +3,9 @@ export default {
   content: ['./src/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ['"Space Mono"', 'monospace'], // This makes it the default
+      },
       colors: {
         primary: '#10196A',
         secondary: '#0e24e4b5',
