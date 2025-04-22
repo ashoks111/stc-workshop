@@ -3,6 +3,14 @@ import { useFocusEffect } from "../../hooks/useFocusEffect";
 import { useFocusStore } from "../../store/useFocusableStore";
 import { FocusKeyElemType } from "../../type/FocusType";
 
+/**
+ * PlayButton component.
+ *
+ * This component represents a circular play button, typically used to trigger playback actions.
+ * It includes hover and focus effects for interactivity and accessibility.
+ *
+ * @returns {JSX.Element} - The rendered play button component.
+ */
 const PlayButton = () => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === FocusKeyElemType.PLAY_BUTTON;

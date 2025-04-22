@@ -2,6 +2,13 @@ import { useFocusEffect } from "../../hooks/useFocusEffect";
 import { useFocusStore } from "../../store/useFocusableStore";
 import { MenuType } from "../../type/MenuType";
 
+/**
+ * Navigation item component.
+ *
+ * This component represents a single navigation item in the top navigation bar.
+ * It uses the `useFocusEffect` hook to manage focus behavior and highlights the item
+ * when it is focused.
+ */
 const NavItem = ({ item }: { item: MenuType }) => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === item?.id;

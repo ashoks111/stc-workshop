@@ -3,6 +3,12 @@ import { useMovieStore } from "../../store/useMovieStore";
 import { MovieCardProps } from "../../type/Movie";
 import LazyImage from "../common/LazyImage";
 
+/**
+ * MovieCard component.
+ *
+ * This component represents a single movie card in the movie rail. It displays the movie's poster,
+ * title, and year, and includes hover and focus effects for enhanced interactivity.
+ */
 const MovieCard = ({ movie, elemRef, onFocus, index }: MovieCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
   const activeMovie = useMovieStore((state) => state.activeMovie);

@@ -4,6 +4,16 @@ import { SideBarMenu } from "../../data/Menu";
 import SideMenu from "./SideMenu";
 import { USER_AVATAR } from "../../config/constants";
 
+/**
+ * Sidebar component.
+ *
+ * This component represents the left sidebar of the application. It includes:
+ * - A user avatar and title.
+ * - A navigation menu rendered using the `SideMenu` component for each menu item.
+ *
+ * The sidebar is styled with a fixed width and a vertical layout, and it serves as the primary
+ * navigation area for the application.
+ */
 const Sidebar = () => {
   return (
     <div className="w-64 min-h-screen bg-primary text-white p-8 flex flex-col border-r border-white/10">

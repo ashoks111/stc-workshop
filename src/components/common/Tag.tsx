@@ -1,4 +1,10 @@
 import Typography from "../common/Typography";
+/**
+ * Tag component.
+ *
+ * This component represents a styled tag or label, typically used to display categories,
+ * genres, or other metadata. It includes hover and focus effects for interactivity.
+ */
 
 const Tag = ({
   tagName,

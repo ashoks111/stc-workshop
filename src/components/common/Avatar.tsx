@@ -8,6 +8,13 @@ type AvatarProps = {
   height?: number | string;
 };
 
+/**
+ * Avatar component.
+ *
+ * This component renders a circular avatar image using the `LazyImage` component for optimized
+ * lazy loading. It is typically used to display user profile pictures or similar content.
+ */
+
 const Avatar = ({
   src,
   alt = "avatar",

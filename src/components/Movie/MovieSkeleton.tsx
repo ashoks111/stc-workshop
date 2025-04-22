@@ -1,3 +1,10 @@
+/**
+ * MovieSkeleton component.
+ *
+ * This component represents a placeholder skeleton for a movie card.
+ * It is displayed while the actual movie data is being loaded, providing a visual cue to the user.
+ * The skeleton uses animations to simulate a loading effect.s
+ */
 const MovieSkeleton = ({ idx }: { idx: string }) => {
   return (
     <div

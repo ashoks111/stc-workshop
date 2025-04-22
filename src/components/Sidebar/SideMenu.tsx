@@ -2,7 +2,12 @@ import { useFocusEffect } from "../../hooks/useFocusEffect";
 import { useFocusStore } from "../../store/useFocusableStore";
 import { MenuType } from "../../type/MenuType";
 import Typography from "../common/Typography";
-
+/**
+ * Side menu item component.
+ *
+ * This component represents a single item in the sidebar menu. It uses the `useFocusEffect` hook
+ * to manage focus behavior and highlights the item when it is focused.
+ */
 const SideMenu = ({ item }: { item: MenuType }) => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const isFocused = focusedKey === item?.id;
