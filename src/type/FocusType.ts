@@ -1,10 +1,12 @@
 export type FocusStoreType = {
-  focusedKey: string;
-  setFocusedKey: (key: string) => void;
+    focusedKey: string;
     prevLeftMenu: string;
-    setPrevLeftMenu: (key: string) => void; 
     prevMovieCard: string;
-    setPrevMovieCard: (key: string) => void;
+    actions: {
+      setFocusedKey: (key: string) => void;
+      setPrevLeftMenu: (key: string) => void; 
+      setPrevMovieCard: (key: string) => void;
+    }
 };
 
 

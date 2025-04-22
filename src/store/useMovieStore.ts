@@ -6,7 +6,9 @@ import { Movie, MovieStore } from '../type/Movie'
 export const useMovieStore = create<MovieStore>((set) => ({
   movies: [],
   activeMovie: null,
-  setActiveMovie: (movie) => set({ activeMovie: movie }),
-  setMovies: (movies: Movie[]) => set({ movies }),
   totalMovies: mockMovies.length,
+  actions: {
+    setActiveMovie: (movie) => set({ activeMovie: movie }),
+    setMovies: (movies: Movie[]) => set({ movies }),
+  }
 }))

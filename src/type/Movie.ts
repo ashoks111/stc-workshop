@@ -3,9 +3,11 @@
  export type MovieStore = {
     movies: Movie[]
     activeMovie: Movie | null
-    setActiveMovie: (movie: Movie) => void
-    setMovies: (movies: Movie[]) => void
     totalMovies: number
+    actions: {
+      setActiveMovie: (movie: Movie) => void
+      setMovies: (movies: Movie[]) => void
+    }
   }
 
   export type Movie = {

@@ -19,8 +19,12 @@ const MovieCard = ({ movie, elemRef, onFocus, index }: MovieCardProps) => {
     <div
       ref={elemRef}
       id={movie?.id}
-      className={`flex-shrink-0 w-48 h-72 mx-3 transition-all duration-300 ease-out transform 
-                ${isHovered || isActive ? "scale-110 z-10" : "scale-100 z-0"}
+      className={`flex-shrink-0 w-48 h-72 mx-3 transition-all duration-300 rounded-xl ease-out transform 
+                ${
+                  isActive
+                    ? "scale-110 z-10 border-2 border-white"
+                    : "scale-100 z-0"
+                }
               `}
       style={{ animationDelay }}
       onMouseEnter={() => setIsHovered(true)}

@@ -15,7 +15,7 @@ const NavItem = ({ item }: { item: MenuType }) => {
         tabIndex={0}
         id={item.id}
         ref={ref}
-        className="flex flex-col items-center space-y-2 text-white/70 hover:text-white focus:text-white transition-colors focus:outline-none"
+        className="flex flex-col items-center space-y-2 text-white/70 hover:text-white focus:text-white focus:shadow-xl focus:shadow-white-500/50 transition-colors focus:outline-none"
       >
         <div>{item.icon}</div>
         <span className="text-sm font-medium">{item.name}</span>

@@ -14,7 +14,7 @@ const PlayButton = () => {
       id="play-button"
       ref={ref}
       aria-label="Play Button"
-      className={`w-12 h-12 mb-4 mt-2 rounded-full bg-white hover:bg-yellow-100/90 focus:bg-yellow-100/90 focus:outline-none transition-colors flex items-center justify-center group`}
+      className={`w-12 h-12 mb-4 mt-2 rounded-full bg-white hover:bg-yellow-100/90 focus:bg-yellow-100/90 focus:shadow-xl focus:shadow-yellow-500/50  focus:outline-none transition-colors flex items-center justify-center group`}
     >
       <Play
         className="w-6 h-6 text-black transform group-hover:scale-110 transition-transform"

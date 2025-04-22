@@ -8,17 +8,17 @@ import { useKeyboardNavigation } from "./hooks/useKeyBoardNavigation";
 
 function App() {
   const activeMovie = useMovieStore((state) => state.activeMovie);
+  const setActiveMovie = useMovieStore((state) => state.actions.setActiveMovie);
   const movies = useMovieStore((state) => state.movies);
   useKeyboardNavigation();
 
   const handleMovieSelect = (movie: Movie) => {
-    const setActiveMovie = useMovieStore.getState().setActiveMovie;
     setActiveMovie(movie);
   };
   return (
-    <div className="flex min-h-screen w-full bg-primary ">
+    <main className="flex min-h-screen w-full bg-primary ">
       <Sidebar />
-      <main className="flex-1 relative hide-scrollbar overflow-hidden">
+      <div className="flex-1 relative hide-scrollbar overflow-hidden">
         <div
           className="absolute inset-0 w-full bg-cover bg-center opacity-20"
           style={{
@@ -34,8 +34,8 @@ function App() {
             onMovieFocus={handleMovieSelect}
           />
         </div>
-      </main>
-    </div>
+      </div>
+    </main>
   );
 }
 

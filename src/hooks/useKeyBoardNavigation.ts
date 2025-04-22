@@ -8,9 +8,7 @@ export const useKeyboardNavigation = () => {
   const focusedKey = useFocusStore((state) => state.focusedKey);
   const prevLeftMenu = useFocusStore((state) => state.prevLeftMenu);
   const prevMovieCard = useFocusStore((state) => state.prevMovieCard);
-  const setFocusedKey = useFocusStore((state) => state.setFocusedKey);
-  const setPrevLeftMenu = useFocusStore((state) => state.setPrevLeftMenu);
-  const setPrevMovieCard = useFocusStore((state) => state.setPrevMovieCard);
+  const {setFocusedKey, setPrevLeftMenu, setPrevMovieCard} = useFocusStore((state) => state.actions);
   
   const movies = useMovieStore((state) => state.movies);
   
