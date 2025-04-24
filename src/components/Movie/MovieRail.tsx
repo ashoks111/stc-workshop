@@ -107,11 +107,8 @@ const MovieRail: React.FC<MovieRailProps> = ({
         height={320}
         itemCount={35}
         itemSize={220}
-        width={
-          hasMore.current
-            ? window.innerWidth
-            : window.innerWidth - movies.length * MOVIE_CARD_PADDING_LENGTH
-        }
+        overscanCount={1}
+        width={window.innerWidth - movies.length * MOVIE_CARD_PADDING_LENGTH}
         layout="horizontal"
         itemData={{
           ...movies,
